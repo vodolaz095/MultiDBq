@@ -4,17 +4,16 @@ MultiDBq
 MultiDBq - singleton-styled MySQL wrapper class with build in profiler,
 connections to multiple hosts and easy configuration
 
-Main Features
-========
+### Main Features
 
 1. Singleton asssembly of class  - low memory consumption, easy to access class from every scope of view
 2. Easy to set multiple mysql-links
 3. Buildin profiler - link,query, execution time et cetera...
 4. Class automaticaly chooses the best mysql database driver from installed extensions (at least best in my opinion :-))
 
-Sample
-========
+### Sample
 
+```php
 <?php
 require 'lib/DB.php';
 
@@ -75,3 +74,4 @@ foreach($users_online as $user_online)
 if(defined('DEBUG')) print_r(DB::s());
 
 ?>
+```
