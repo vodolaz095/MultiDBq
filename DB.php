@@ -145,7 +145,7 @@ class DB
 
 
     /**
-     * Function returns the ame of active database link used, or false if link is not setted
+     * Function returns the name of active database link used, or false if link is not setted
      * @static
      * @return bool
      */
