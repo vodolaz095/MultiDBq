@@ -143,6 +143,20 @@ class DB
                     }
             }
 
+
+    /**
+     * Function returns the ame of active database link used, or false if link is not setted
+     * @static
+     * @return bool
+     */
+        static public function getLinkName()
+            {
+                $db=DB::init();
+                return ($db->active_link) ? $db->active_link : false;
+            }
+
+
+
     /**
      * Function executes MySQL query on the active database link - @see DB::setLink($link_name);
      * @static
