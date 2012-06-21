@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_STRICT);
 class DB_exception extends Exception
     {
     }
@@ -11,7 +12,8 @@ class DB
         private $stats=array();
         private $driver;
 
-        private function init()
+
+        private static function init()
             {
                 if (is_null(self::$instance))
                     {
