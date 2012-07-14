@@ -1,5 +1,4 @@
 <?php
-error_reporting(E_STRICT);
 class DB_exception extends Exception
     {
     }
@@ -25,12 +24,12 @@ class DB
         private function __construct()
             {
 
-                if (extension_loaded('pdo_mysql'))
+               /* if (extension_loaded('pdo_mysql'))
                     {
                         $this->driver='PDO';
                         require_once 'dbdrv/pdo_mysql.php';
                     }
-                elseif (extension_loaded('mysqli'))
+                else*/if (extension_loaded('mysqli'))
                     {
                         $this->driver='MySQLi';
                         require_once 'dbdrv/mysqli.php';
@@ -120,12 +119,17 @@ class DB
                     }
                 else
                     {
-                        throw new DB_exception('Wrong dsn or link name!. $dsn format shall be like mysql://user:pwd@mysql_host/database_name  ');
+                        throw new DB_exception('Wrong dsn or link name! $dsn format shall be like mysql://user:pwd@mysql_host/database_name  ');
                     }
 
                 return true;
             }
 
+
+        static public function addBackupLink($dsn)
+            {
+                DB::addLink('backup',$dsn);
+            }
     /**
      * Function sets one of the added MySQL links to be active and be used for sending queries.
      * @static
@@ -214,7 +218,7 @@ class DB
         static public function f($string_to_escape)
             {
                 $db=DB::init();
-                return $db->links[$db->active_link]->filter($string_to_escape);
+                return trim($db->links[$db->active_link]->filter($string_to_escape));
             }
 
 
@@ -236,7 +240,18 @@ class DB
                     }
                 $values='"'.implode('","', $values).'"';
                 $q='INSERT INTO `'.$table_name.'`('.$columns.') VALUES ('.$values.')';
-                $a=DB::q($q);
+                $current_link=DB::getLinkName();
+                $DB=DB::init();
+                $a=$DB->q($q);
+//                print_r(array_keys($DB->links));
+//                die();
+                if(in_array('backup',array_keys($DB->links)))
+                {
+                    $DB->setLink('backup');
+                    $DB->q($q);
+                    $DB->setLink($current_link);
+                }
+
                 return $a;
             }
 
@@ -258,7 +273,18 @@ class DB
                     }
                 $values=implode(',', $vals);
                 $q='UPDATE `'.$table_name.'` SET '.$values.' WHERE '.$string_where;
-                $a=DB::q($q);
+
+                $current_link=DB::getLinkName();
+                $DB=DB::init();
+                $a=$DB->q($q);
+                if(in_array('backup',array_keys($DB->links)))
+                {
+                    $DB->setLink('backup');
+                    $DB->q($q);
+                    $DB->setLink($current_link);
+                }
+
+
                 return $a;
             }
 

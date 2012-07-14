@@ -136,7 +136,7 @@ class DB_MySQLi
 
         public function filter($string_to_escape)
             {
-                return (mysqli_real_escape_string($string_to_escape, $this->link));
+                return (mysqli_real_escape_string($this->link,$string_to_escape));
             }
 
         public function getLastInsertId()

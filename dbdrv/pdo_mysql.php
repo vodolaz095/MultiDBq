@@ -97,6 +97,7 @@ class DB_PDO_MySQL
                             }
                         else
                             {
+                                print_r($res);
                                 $type='UNKNOWN';
                                 $ans=$res;
                                 $rows=false;
@@ -108,7 +109,7 @@ class DB_PDO_MySQL
                                      'query'         =>$mysql_query,
                                      'result'        =>$ans,
                                      'time'          =>round((1000*$exectime), 2),
-                                     'status'        =>($this->link->errorInfo()) ? 'OK' : implode($this->link->errorInfo(), ', '),
+                                     'status'        =>($this->link->errorInfo()) ? 'OK' : implode(', ',$this->link->errorInfo()),
                                      'affected_rows' =>$rows);
                     }
                 else
