@@ -24,12 +24,12 @@ class DB
         private function __construct()
             {
 
-               /* if (extension_loaded('pdo_mysql'))
+                if (extension_loaded('pdo_mysql'))
                     {
                         $this->driver='PDO';
                         require_once 'dbdrv/pdo_mysql.php';
                     }
-                else*/if (extension_loaded('mysqli'))
+                elseif (extension_loaded('mysqli'))
                     {
                         $this->driver='MySQLi';
                         require_once 'dbdrv/mysqli.php';
