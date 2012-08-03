@@ -81,7 +81,7 @@ class DB
                                         else
                                             {
                                                 $db->links[$link_name]=false;
-                                                trigger_error('Unable to establish link "'.$link_name.'"', E_USER_NOTICE);
+                                                throw new DB_exception('Unable to establish link "'.$link_name.'"');
                                             }
                                     }
                                 elseif ($db->driver=='MySQLi')
@@ -94,7 +94,7 @@ class DB
                                         else
                                             {
                                                 $db->links[$link_name]=false;
-                                                trigger_error('Unable to establish link "'.$link_name.'"', E_USER_NOTICE);
+                                                throw new DB_exception('Unable to establish link "'.$link_name.'"');
                                             }
 
                                     }
@@ -108,7 +108,7 @@ class DB
                                         else
                                             {
                                                 $db->links[$link_name]=false;
-                                                trigger_error('Unable to establish link "'.$link_name.'"', E_USER_NOTICE);
+                                                throw new DB_exception('Unable to establish link "'.$link_name.'"');
                                             }
                                     }
                                 else
@@ -123,12 +123,6 @@ class DB
                     }
 
                 return true;
-            }
-
-
-        static public function addBackupLink($dsn)
-            {
-                DB::addLink('backup',$dsn);
             }
     /**
      * Function sets one of the added MySQL links to be active and be used for sending queries.
@@ -201,7 +195,7 @@ class DB
                                            'Status'        =>'No connection to database!',
                                            'Affected_rows' =>0);
 
-                        trigger_error('Unable to establish link "'.$db->active_link.'"', E_USER_NOTICE);
+                        throw new DB_exception('Unable to establish link "'.$db->active_link.'"');
                         return false;
                     }
 

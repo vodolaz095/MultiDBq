@@ -27,9 +27,10 @@ class DB_PDO_MySQL
                             {
                                 $this->link=$db;
                             }
-                    } catch (PDOException $e)
+                    }
+                catch(PDOException $e)
                     {
-                        trigger_error(__FILE__.'>>'.__METHOD__.' error connecting to db!'.$e->getMessage());
+                        throw new DB_exception('Error connectiong to database with "'.$dsn.'" :'.$e->getMessage());
                     }
             }
 
@@ -49,7 +50,15 @@ class DB_PDO_MySQL
                 $mysql_query=trim($mysql_query);
                 if ($this->link)
                     {
+                        try
+                        {
                         $res=$this->link->query($mysql_query);
+                        }
+                        catch(PDOException $e)
+                        {
+                            throw new DB_exception('Error executing query "'.$mysql_query.'". SQL error reporting says :'.$e);
+                        }
+
                         if ($res and get_class($res)=='PDOStatement')
                             {
                                 $ans=true;
@@ -97,10 +106,10 @@ class DB_PDO_MySQL
                             }
                         else
                             {
-                                print_r($res);
                                 $type='UNKNOWN';
                                 $ans=$res;
                                 $rows=false;
+                                throw new DB_exception('Error executing query "'.$mysql_query.'"!');
                             }
 
                         $exectime=microtime(true)-$now;

@@ -36,7 +36,7 @@ class DB_MySQL
                     }
                 else
                     {
-                        throw new DB_exception('Cannot connect to database!');
+                        throw new DB_exception('Cannot connect to database using dsn "'.$dsn.'"!');
                     }
             }
 
@@ -121,12 +121,14 @@ class DB_MySQL
                                      'query'         =>$mysql_query,
                                      'result'        =>$ans,
                                      'time'          =>round((1000*$exectime), 2),
-                                     'status'        =>(mysql_error($this->link)=="") ? 'OK' : 'MySQL error: '.mysql_error($this->link),
+                                     'status'        =>(mysql_error($this->link)) ? 'OK' : 'MySQL error: '.mysql_error($this->link),
                                      'affected_rows' =>$rows);
+                        if (mysql_error($this->link)) throw new DB_exception('Error executing query "'.$mysql_query.'". SQL error reporting says :'.mysql_error($this->link));
                     }
-                else {
-                    return false;
-                }
+                else
+                    {
+                        return false;
+                    }
             }
 
 

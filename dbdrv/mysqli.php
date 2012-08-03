@@ -40,7 +40,7 @@ class DB_MySQLi
                     }
                 else
                     {
-                        throw new DB_exception('Cannot connect to database!');
+                        throw new DB_exception('Cannot connect to database using dsn "'.$dsn.'"!');
                     }
             }
 
@@ -127,6 +127,8 @@ class DB_MySQLi
                                      'time'          =>round((1000*$exectime), 2),
                                      'status'        =>(mysqli_error($this->link)=="") ? 'OK' : 'MySQL error: '.mysqli_error($this->link),
                                      'affected_rows' =>$rows);
+
+                        if (mysqli_error($this->link)) throw new DB_exception('Error executing query "'.$mysql_query.'". SQL error reporting says :'.mysqli_error($this->link));
                     }
                 else {
                     return false;
