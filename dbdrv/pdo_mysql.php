@@ -56,7 +56,7 @@ class DB_PDO_MySQL
                         }
                         catch(PDOException $e)
                         {
-                            throw new DB_exception('Error executing query "'.$mysql_query.'". SQL error reporting says :'.$e);
+                            throw new DB_exception('Error executing query "'.$mysql_query.'". SQL error reporting says :'.implode(':',$e->errorInfo()).' '.$e->getMessage());
                         }
 
                         if ($res and get_class($res)=='PDOStatement')
@@ -109,7 +109,7 @@ class DB_PDO_MySQL
                                 $type='UNKNOWN';
                                 $ans=$res;
                                 $rows=false;
-                                throw new DB_exception('Error executing query "'.$mysql_query.'"!');
+                                throw new DB_exception('Error executing query "'.$mysql_query.'". SQL error reporting says :'.implode(':',$this->link->errorInfo()));
                             }
 
                         $exectime=microtime(true)-$now;
