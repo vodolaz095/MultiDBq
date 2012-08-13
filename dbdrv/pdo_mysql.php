@@ -30,6 +30,7 @@ class DB_PDO_MySQL
                     }
                 catch(PDOException $e)
                     {
+                        $dsn='mysql://'.$parameters['login'].':***@'.$parameters['host'].$parameters['path'];
                         throw new DB_exception('Error connectiong to database with "'.$dsn.'" :'.$e->getMessage());
                     }
             }
